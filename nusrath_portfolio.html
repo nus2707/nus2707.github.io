@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nusrath Banu — Senior Data Engineer Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    :root {
+      --bg:          #0D1B2A;
+      --bg-card:     #152538;
+      --bg-card2:    #1C3149;
+      --teal:        #4ECDC4;
+      --teal-dim:    #3AADA5;
+      --azure:       #5BA4CF;
+      --coral:       #FF7C5A;
+      --amber:       #F5A623;
+      --sage:        #96CEB4;
+      --txt:         #E0EAF4;
+      --txt-muted:   #7E9BC0;
+      --txt-dim:     #4A6784;
+      --border:      #1E3654;
+      --border-lt:   #243F5C;
+      --sans:        'Inter', system-ui, sans-serif;
+      --display:     'Space Grotesk', system-ui, sans-serif;
+      --mono:        'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--txt);
+      font-family: var(--sans);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 60px;
+      background: rgba(13,27,42,0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-brand {
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      color: var(--teal);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+    .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.84rem;
+      font-weight: 500;
+      color: var(--txt-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* ── HERO ── */
+    .hero-bg {
+      background: radial-gradient(ellipse 80% 55% at 65% 42%, rgba(78,205,196,0.07) 0%, transparent 65%);
+    }
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 3rem;
+      padding: 80px 2.5rem 60px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      color: var(--teal);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    .hero-name {
+      font-family: var(--display);
+      font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.03;
+      letter-spacing: -0.04em;
+      color: #fff;
+      margin-bottom: 0.3rem;
+    }
+    .hero-name .accent { color: var(--teal); }
+    .hero-title {
+      font-family: var(--display);
+      font-size: clamp(1rem, 1.8vw, 1.3rem);
+      font-weight: 500;
+      color: var(--txt-muted);
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-summary {
+      font-size: 1rem;
+      color: var(--txt-muted);
+      line-height: 1.82;
+      max-width: 470px;
+      margin-bottom: 2.25rem;
+    }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-bottom: 2.5rem; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.62rem 1.3rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: all 0.2s ease;
+    }
+    .btn-fill { background: var(--teal); color: var(--bg); border: 1.5px solid transparent; }
+    .btn-fill:hover { background: var(--teal-dim); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--txt-muted); border: 1.5px solid var(--border-lt); }
+    .btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+    .hero-meta { display: flex; flex-direction: column; gap: 0.5rem; }
+    .meta-row { display: flex; align-items: center; gap: 0.6rem; font-size: 0.875rem; color: var(--txt-muted); }
+    .meta-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+
+    /* ── PIPELINE SVG ANIMATIONS ── */
+    @keyframes flowDash {
+      from { stroke-dashoffset: 24; }
+      to   { stroke-dashoffset: 0; }
+    }
+    @keyframes nodePulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.35; }
+    }
+    .pipe-animated {
+      stroke-dasharray: 7 5;
+      animation: flowDash 1.9s linear infinite;
+    }
+    .pulse-node { animation: nodePulse 2.8s ease-in-out infinite; }
+
+    .hero-vis { display: flex; align-items: center; justify-content: center; }
+    .pipe-label {
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--txt-dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar { background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .stats-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem 2.5rem;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+    }
+    .stat { text-align: center; padding: 0.75rem; }
+    .stat-num {
+      display: block;
+      font-family: var(--display);
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--teal);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .stat-lbl {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--txt-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    /* ── SECTION CONTAINERS ── */
+    .section-wrap { max-width: 1280px; margin: 0 auto; padding: 5rem 2.5rem; }
+    .s-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--teal);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .s-title {
+      font-family: var(--display);
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+    .s-desc { color: var(--txt-muted); font-size: 1rem; max-width: 560px; margin-bottom: 2.75rem; }
+    .divider { max-width: 1280px; margin: 0 auto; padding: 0 2.5rem; }
+    .divider-line { height: 1px; background: var(--border); }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.25rem;
+    }
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 2.5px solid transparent;
+      border-radius: 10px;
+      padding: 1.4rem;
+    }
+    .skill-card.ct { border-top-color: var(--teal); }
+    .skill-card.ca { border-top-color: var(--azure); }
+    .skill-card.cc { border-top-color: var(--coral); }
+    .skill-card.cam { border-top-color: var(--amber); }
+    .skill-cat {
+      font-family: var(--display);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--txt-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+    }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.42rem; }
+    .chip {
+      font-family: var(--mono);
+      font-size: 0.69rem;
+      padding: 0.27rem 0.53rem;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.04);
+      color: var(--txt);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* ── EXPERIENCE TIMELINE ── */
+    .timeline { display: flex; flex-direction: column; position: relative; }
+    .tl-rule {
+      position: absolute;
+      left: 148px;
+      top: 8px;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--teal) 0%, var(--border) 60%, transparent 100%);
+    }
+    .tl-item { display: grid; grid-template-columns: 148px 1fr; gap: 2rem; padding-bottom: 2.5rem; position: relative; }
+    .tl-date {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--txt-muted);
+      padding-top: 0.2rem;
+      text-align: right;
+      padding-right: 2rem;
+      line-height: 1.5;
+    }
+    .tl-dot {
+      position: absolute;
+      left: 143px;
+      top: 6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--teal);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--teal);
+    }
+    .tl-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.6rem;
+    }
+    .tl-company { font-family: var(--display); font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.2rem; }
+    .tl-role { font-size: 0.82rem; font-weight: 500; color: var(--teal); margin-bottom: 0.2rem; }
+    .tl-loc { font-size: 0.76rem; color: var(--txt-dim); margin-bottom: 1.25rem; }
+    .tl-proj {
+      font-family: var(--display);
+      font-size: 0.91rem;
+      font-weight: 600;
+      color: var(--txt);
+      padding-top: 1.1rem;
+      margin-top: 1.1rem;
+      border-top: 1px solid var(--border);
+      margin-bottom: 0.7rem;
+    }
+    .tl-proj:first-of-type { padding-top: 0; margin-top: 0; border-top: none; }
+    .blist { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+    .blist li {
+      font-size: 0.875rem;
+      color: var(--txt-muted);
+      padding-left: 1.1rem;
+      position: relative;
+      line-height: 1.65;
+    }
+    .blist li::before {
+      content: '\2192';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--teal);
+      font-size: 0.78rem;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+    .proj-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.6rem;
+      padding-bottom: 2rem;
+      transition: border-color 0.25s, transform 0.2s;
+      position: relative;
+    }
+    .proj-card:hover { transform: translateY(-2px); border-color: var(--border-lt); }
+    .proj-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 1.5rem;
+      right: 1.5rem;
+      height: 1.5px;
+      border-radius: 0 0 6px 6px;
+    }
+    .proj-card.pt::after  { background: var(--teal); }
+    .proj-card.paz::after { background: var(--azure); }
+    .proj-card.pc::after  { background: var(--coral); }
+    .proj-card.pam::after { background: var(--amber); }
+    .proj-domain {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.52rem;
+      border-radius: 4px;
+      margin-bottom: 0.85rem;
+    }
+    .pd-h { background: rgba(78,205,196,0.12); color: var(--teal); }
+    .pd-m { background: rgba(91,164,207,0.12); color: var(--azure); }
+    .pd-r { background: rgba(245,166,35,0.12);  color: var(--amber); }
+    .proj-title { font-family: var(--display); font-size: 1.08rem; font-weight: 700; color: #fff; letter-spacing: -0.02em; margin-bottom: 0.25rem; }
+    .proj-sub { font-family: var(--mono); font-size: 0.67rem; color: var(--txt-dim); letter-spacing: 0.04em; margin-bottom: 0.85rem; }
+    .proj-desc { font-size: 0.875rem; color: var(--txt-muted); line-height: 1.72; margin-bottom: 1rem; }
+    .proj-hl { list-style: none; padding: 0; margin-bottom: 1.2rem; display: flex; flex-direction: column; gap: 0.44rem; }
+    .proj-hl li {
+      font-size: 0.82rem;
+      color: var(--txt-muted);
+      padding-left: 1rem;
+      position: relative;
+      line-height: 1.55;
+    }
+    .proj-hl li::before { content: '\25B8'; position: absolute; left: 0; top: 0.06rem; color: var(--teal); font-size: 0.65rem; }
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 0.34rem; }
+    .tech-tag {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      padding: 0.2rem 0.44rem;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.04);
+      color: var(--txt-dim);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* ── CERTIFICATIONS ── */
+    .certs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .cert-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .cert-icon { width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.45rem; }
+    .ci-de   { background: rgba(91,164,207,0.15); }
+    .ci-pbi  { background: rgba(245,166,35,0.15); }
+    .ci-fund { background: rgba(78,205,196,0.15); }
+    .cert-by { font-family: var(--mono); font-size: 0.67rem; color: var(--txt-dim); letter-spacing: 0.1em; text-transform: uppercase; }
+    .cert-name { font-family: var(--display); font-size: 0.98rem; font-weight: 700; color: #fff; letter-spacing: -0.02em; }
+    .cert-code { font-family: var(--mono); font-size: 0.78rem; color: var(--teal); }
+    .edu-bar {
+      margin-top: 2rem;
+      padding: 1.2rem 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .edu-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .edu-name { font-family: var(--display); font-size: 0.93rem; font-weight: 600; color: #fff; margin-bottom: 0.2rem; }
+    .edu-detail { font-size: 0.83rem; color: var(--txt-muted); }
+
+    /* ── CONTACT ── */
+    .contact-section { background: var(--bg-card); border-top: 1px solid var(--border); }
+    .contact-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 3.5rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .contact-heading { font-family: var(--display); font-size: 1.75rem; font-weight: 700; letter-spacing: -0.03em; color: #fff; margin-bottom: 0.4rem; }
+    .contact-sub { color: var(--txt-muted); font-size: 0.9rem; max-width: 360px; }
+    .contact-links { display: flex; flex-direction: column; gap: 0.7rem; }
+    .clink { display: flex; align-items: center; gap: 0.75rem; color: var(--txt-muted); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+    .clink:hover { color: var(--teal); }
+    .clink-icon {
+      width: 34px; height: 34px;
+      border-radius: 7px;
+      background: rgba(255,255,255,0.05);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.93rem;
+      flex-shrink: 0;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 1.2rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--txt-dim);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; padding: 90px 2rem 50px; }
+      .hero-vis { display: none; }
+      .stats-inner { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      .certs-grid { grid-template-columns: 1fr; }
+      .tl-rule, .tl-dot { display: none; }
+      .tl-item { grid-template-columns: 1fr; }
+      .tl-date { text-align: left; padding-right: 0; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .nav-links { display: none; }
+      .contact-inner { flex-direction: column; align-items: flex-start; }
+      .section-wrap { padding: 3.5rem 1.5rem; }
+      .hero { padding: 90px 1.5rem 50px; }
+    }
+    @media (max-width: 480px) {
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ░░ NAVIGATION ░░ -->
+  <nav class="nav" aria-label="Main navigation">
+    <a href="#" class="nav-brand">// nusrathbanu.dev</a>
+    <ul class="nav-links">
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ░░ HERO ░░ -->
+  <div class="hero-bg">
+    <div class="hero">
+
+      <div class="hero-content">
+        <p class="hero-eyebrow">// senior data engineer &middot; 5+ years</p>
+        <h1 class="hero-name">Nusrath<br><span class="accent">Banu</span></h1>
+        <p class="hero-title">Azure &nbsp;&bull;&nbsp; PySpark &nbsp;&bull;&nbsp; Databricks &nbsp;&bull;&nbsp; Kafka &nbsp;&bull;&nbsp; Healthcare EDI</p>
+        <p class="hero-summary">
+          I design and deliver end-to-end data pipelines &mdash; from EDI ingestion and Kafka streaming through Medallion architecture to Power BI dashboards that drive real decisions. Across healthcare, retail, and marketing analytics at HCL.
+        </p>
+        <div class="hero-cta">
+          <a href="mailto:nusrathbanu2707@gmail.com" class="btn btn-fill">&#9993;&nbsp; Get in Touch</a>
+          <a href="https://github.com/nus2707" target="_blank" rel="noopener" class="btn btn-outline">&#8962;&nbsp; GitHub</a>
+          <a href="https://www.linkedin.com/in/nusrath-banu-854bbb284" target="_blank" rel="noopener" class="btn btn-outline">in&nbsp; LinkedIn</a>
+        </div>
+        <div class="hero-meta">
+          <div class="meta-row"><div class="meta-dot"></div>Chennai, India &nbsp;&bull;&nbsp; Open to relocation / remote</div>
+          <div class="meta-row"><div class="meta-dot"></div>3&times; Microsoft Certified (DP-203, PL-300, DP-900)</div>
+          <div class="meta-row"><div class="meta-dot"></div>Seeking Senior Data Engineer roles</div>
+        </div>
+      </div>
+
+      <!-- Pipeline Visualization -->
+      <div class="hero-vis" aria-hidden="true">
+        <div>
+          <p class="pipe-label">// data engineering stack</p>
+          <svg viewBox="0 0 500 430" width="500" height="430" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
+            <defs>
+              <filter id="glow" x="-25%" y="-25%" width="150%" height="150%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+
+            <!-- Subtle background grid -->
+            <g opacity="0.045" stroke="#4ECDC4" stroke-width="0.5">
+              <line x1="0" y1="75" x2="500" y2="75"/>
+              <line x1="0" y1="215" x2="500" y2="215"/>
+              <line x1="0" y1="355" x2="500" y2="355"/>
+              <line x1="113" y1="0" x2="113" y2="430"/>
+              <line x1="250" y1="0" x2="250" y2="430"/>
+              <line x1="387" y1="0" x2="387" y2="430"/>
+            </g>
+
+            <!-- ── LEFT NODES ── -->
+
+            <!-- SOURCE -->
+            <g transform="translate(10,28)">
+              <rect width="110" height="62" rx="8" fill="#152538" stroke="#4ECDC4" stroke-width="1.5"/>
+              <text x="55" y="18" text-anchor="middle" fill="#4ECDC4" font-family="'JetBrains Mono',monospace" font-size="8.5" letter-spacing="1" font-weight="500">SOURCE</text>
+              <text x="55" y="37" text-anchor="middle" fill="#E0EAF4" font-family="'JetBrains Mono',monospace" font-size="10.5" font-weight="500">EDI &bull; CSV</text>
+              <text x="55" y="54" text-anchor="middle" fill="#7E9BC0" font-family="'JetBrains Mono',monospace" font-size="8.5">REST APIs</text>
+              <circle cx="110" cy="31" r="5" fill="#4ECDC4" filter="url(#glow)" class="pulse-node"/>
+            </g>
+
+            <!-- INGEST -->
+            <g transform="translate(10,185)">
+              <rect width="110" height="62" rx="8" fill="#152538" stroke="#5BA4CF" stroke-width="1.5"/>
+              <text x="55" y="18" text-anchor="middle" fill="#5BA4CF" font-family="'JetBrains Mono',monospace" font-size="8.5" letter-spacing="1" font-weight="500">INGEST</text>
+              <text x="55" y="37" text-anchor="middle" fill="#E0EAF4" font-family="'JetBrains Mono',monospace" font-size="10.5" font-weight="500">Kafka</text>
+              <text x="55" y="54" text-anchor="middle" fill="#7E9BC0" font-family="'JetBrains Mono',monospace" font-size="8.5">Event Hubs</text>
+              <circle cx="110" cy="31" r="5" fill="#5BA4CF" filter="url(#glow)" class="pulse-node" style="animation-delay:0.7s"/>
+            </g>
+
+            <!-- PROCESS -->
+            <g transform="translate(10,342)">
+              <rect width="110" height="62" rx="8" fill="#152538" stroke="#FF7C5A" stroke-width="1.5"/>
+              <text x="55" y="18" text-anchor="middle" fill="#FF7C5A" font-family="'JetBrains Mono',monospace" font-size="8.5" letter-spacing="1" font-weight="500">PROCESS</text>
+              <text x="55" y="37" text-anchor="middle" fill="#E0EAF4" font-family="'JetBrains Mono',monospace" font-size="10.5" font-weight="500">PySpark</text>
+              <text x="55" y="54" text-anchor="middle" fill="#7E9BC0" font-family="'JetBrains Mono',monospace" font-size="8.5">Databricks</text>
+              <circle cx="110" cy="31" r="5" fill="#FF7C5A" filter="url(#glow)" class="pulse-node" style="animation-delay:1.4s"/>
+            </g>
+
+            <!-- ── CENTER: MEDALLION ── -->
+            <g transform="translate(195,140)">
+              <rect width="110" height="150" rx="9" fill="#152538" stroke="#4ECDC4" stroke-width="2"/>
+              <text x="55" y="20" text-anchor="middle" fill="#4ECDC4" font-family="'JetBrains Mono',monospace" font-size="8" letter-spacing="1" font-weight="500">MEDALLION</text>
+              <line x1="10" y1="28" x2="100" y2="28" stroke="#1E3654" stroke-width="1"/>
+              <text x="55" y="52"  text-anchor="middle" fill="#E0EAF4" font-family="'JetBrains Mono',monospace" font-size="11.5">&#x1F7EB; Bronze</text>
+              <text x="55" y="80"  text-anchor="middle" fill="#E0EAF4" font-family="'JetBrains Mono',monospace" font-size="11.5">&#x1F7EA; Silver</text>
+              <text x="55" y="108" text-anchor="middle" fill="#E0EAF4" font-family="'JetBrains Mono',monospace" font-size="11.5">&#x1F7E8; Gold</text>
+              <line x1="10" y1="118" x2="100" y2="118" stroke="#1E3654" stroke-width="1"/>
+              <text x="55" y="135" text-anchor="middle" fill="#7E9BC0" font-family="'JetBrains Mono',monospace" font-size="8">Delta Lake / ADLS Gen2</text>
+              <!-- connector anchors -->
+              <circle cx="0"   cy="75" r="5" fill="#4ECDC4" filter="url(#glow)"/>
+              <circle cx="110" cy="75" r="5" fill="#4ECDC4" filter="url(#glow)"/>
+            </g>
+
+            <!-- ── RIGHT NODES ── -->
+
+            <!-- ANALYTICS -->
+            <g transform="translate(380,28)">
+              <rect width="110" height="62" rx="8" fill="#152538" stroke="#F5A623" stroke-width="1.5"/>
+              <text x="55" y="18" text-anchor="middle" fill="#F5A623" font-family="'JetBrains Mono',monospace" font-size="8.5" letter-spacing="1" font-weight="500">ANALYTICS</text>
+              <text x="55" y="37" text-anchor="middle" fill="#E0EAF4" font-family="'JetBrains Mono',monospace" font-size="10.5" font-weight="500">Power BI</text>
+              <text x="55" y="54" text-anchor="middle" fill="#7E9BC0" font-family="'JetBrains Mono',monospace" font-size="8.5">DAX &bull; KPIs</text>
+              <circle cx="0" cy="31" r="5" fill="#F5A623" filter="url(#glow)" class="pulse-node" style="animation-delay:2.1s"/>
+            </g>
+
+            <!-- WAREHOUSE -->
+            <g transform="translate(380,185)">
+              <rect width="110" height="62" rx="8" fill="#152538" stroke="#5BA4CF" stroke-width="1.5"/>
+              <text x="55" y="18" text-anchor="middle" fill="#5BA4CF" font-family="'JetBrains Mono',monospace" font-size="8.5" letter-spacing="1" font-weight="500">WAREHOUSE</text>
+              <text x="55" y="37" text-anchor="middle" fill="#E0EAF4" font-family="'JetBrains Mono',monospace" font-size="10.5" font-weight="500">Azure SQL</text>
+              <text x="55" y="54" text-anchor="middle" fill="#7E9BC0" font-family="'JetBrains Mono',monospace" font-size="8.5">Synapse</text>
+              <circle cx="0" cy="31" r="5" fill="#5BA4CF" filter="url(#glow)" class="pulse-node" style="animation-delay:2.8s"/>
+            </g>
+
+            <!-- CI/CD -->
+            <g transform="translate(380,342)">
+              <rect width="110" height="62" rx="8" fill="#152538" stroke="#96CEB4" stroke-width="1.5"/>
+              <text x="55" y="18" text-anchor="middle" fill="#96CEB4" font-family="'JetBrains Mono',monospace" font-size="8.5" letter-spacing="1" font-weight="500">CI/CD</text>
+              <text x="55" y="37" text-anchor="middle" fill="#E0EAF4" font-family="'JetBrains Mono',monospace" font-size="10.5" font-weight="500">Azure DevOps</text>
+              <text x="55" y="54" text-anchor="middle" fill="#7E9BC0" font-family="'JetBrains Mono',monospace" font-size="8.5">GitHub Actions</text>
+              <circle cx="0" cy="31" r="5" fill="#96CEB4" filter="url(#glow)" class="pulse-node" style="animation-delay:3.5s"/>
+            </g>
+
+            <!-- ── FLOW LINES: left → center ── -->
+            <!-- Source (right=120,59) → Medallion left (195,215) -->
+            <path d="M 120 59  C 157 59  157 215 195 215" fill="none" stroke="#4ECDC4" stroke-width="1.5" stroke-opacity="0.5" class="pipe-animated"/>
+            <!-- Ingest (120,216) → Medallion (195,215) -->
+            <path d="M 120 216 C 157 216 157 215 195 215" fill="none" stroke="#5BA4CF" stroke-width="1.5" stroke-opacity="0.5" class="pipe-animated" style="animation-delay:0.45s"/>
+            <!-- Process (120,373) → Medallion (195,215) -->
+            <path d="M 120 373 C 157 373 157 215 195 215" fill="none" stroke="#FF7C5A" stroke-width="1.5" stroke-opacity="0.5" class="pipe-animated" style="animation-delay:0.9s"/>
+
+            <!-- ── FLOW LINES: center → right ── -->
+            <!-- Medallion (305,215) → Analytics (380,59) -->
+            <path d="M 305 215 C 342 215 342 59  380 59"  fill="none" stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.5" class="pipe-animated" style="animation-delay:1.35s"/>
+            <!-- Medallion (305,215) → Warehouse (380,216) -->
+            <path d="M 305 215 C 342 215 342 216 380 216" fill="none" stroke="#5BA4CF" stroke-width="1.5" stroke-opacity="0.5" class="pipe-animated" style="animation-delay:1.8s"/>
+            <!-- Medallion (305,215) → CI/CD (380,373) -->
+            <path d="M 305 215 C 342 215 342 373 380 373" fill="none" stroke="#96CEB4" stroke-width="1.5" stroke-opacity="0.5" class="pipe-animated" style="animation-delay:2.25s"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ░░ STATS BAR ░░ -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat">
+        <span class="stat-num">5+</span>
+        <span class="stat-lbl">Years Experience</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">3</span>
+        <span class="stat-lbl">Azure Certifications</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">3</span>
+        <span class="stat-lbl">Industries Served</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">4+</span>
+        <span class="stat-lbl">GitHub Projects</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">15+</span>
+        <span class="stat-lbl">Core Technologies</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ░░ SKILLS ░░ -->
+  <div class="section-wrap" id="skills">
+    <p class="s-eyebrow">// technical skills</p>
+    <h2 class="s-title">What I Build With</h2>
+    <p class="s-desc">A full-stack data engineering toolkit &mdash; from event ingestion and data governance to delivery and visualisation.</p>
+
+    <div class="skills-grid">
+
+      <div class="skill-card ct">
+        <div class="skill-cat">Languages &amp; Processing</div>
+        <div class="chips">
+          <span class="chip">Python</span><span class="chip">SQL</span><span class="chip">PySpark</span><span class="chip">Apache Spark</span><span class="chip">Pandas</span><span class="chip">Databricks</span><span class="chip">dbt-core</span><span class="chip">dbt-postgres</span>
+        </div>
+      </div>
+
+      <div class="skill-card ca">
+        <div class="skill-cat">Azure Cloud Services</div>
+        <div class="chips">
+          <span class="chip">Azure Data Factory</span><span class="chip">ADLS Gen2</span><span class="chip">Azure Event Hubs</span><span class="chip">Azure SQL</span><span class="chip">Azure Synapse Analytics</span><span class="chip">Azure Blob Storage</span><span class="chip">Azure Key Vault</span><span class="chip">Azure DevOps</span>
+        </div>
+      </div>
+
+      <div class="skill-card ct">
+        <div class="skill-cat">Data Lakehouse &amp; Modelling</div>
+        <div class="chips">
+          <span class="chip">Delta Lake</span><span class="chip">Medallion Architecture</span><span class="chip">Star Schema</span><span class="chip">Dimensional Modelling</span><span class="chip">Bronze / Silver / Gold</span><span class="chip">SCD Types</span>
+        </div>
+      </div>
+
+      <div class="skill-card cc">
+        <div class="skill-cat">Streaming &amp; Orchestration</div>
+        <div class="chips">
+          <span class="chip">Apache Kafka</span><span class="chip">Confluent Kafka</span><span class="chip">Event Hubs (Kafka)</span><span class="chip">Apache Airflow</span><span class="chip">KRaft Mode</span><span class="chip">FastAPI</span>
+        </div>
+      </div>
+
+      <div class="skill-card ca">
+        <div class="skill-cat">Healthcare &amp; EDI</div>
+        <div class="chips">
+          <span class="chip">EDI 837P</span><span class="chip">EDI 270 / 271</span><span class="chip">EDI 835</span><span class="chip">ANSI X12</span><span class="chip">HIPAA</span><span class="chip">PHI Handling</span><span class="chip">Claims Analytics</span>
+        </div>
+      </div>
+
+      <div class="skill-card cam">
+        <div class="skill-cat">DevOps, Databases &amp; BI</div>
+        <div class="chips">
+          <span class="chip">GitHub Actions</span><span class="chip">Docker</span><span class="chip">Docker Compose</span><span class="chip">PostgreSQL</span><span class="chip">DuckDB</span><span class="chip">SQLFluff</span><span class="chip">pytest</span><span class="chip">Power BI</span><span class="chip">DAX</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-line"></div></div>
+
+  <!-- ░░ EXPERIENCE ░░ -->
+  <div class="section-wrap" id="experience">
+    <p class="s-eyebrow">// work experience</p>
+    <h2 class="s-title">Where I've Delivered</h2>
+    <p class="s-desc">5+ years shipping production data pipelines across healthcare, retail, and enterprise marketing analytics.</p>
+
+    <div class="timeline">
+      <div class="tl-rule"></div>
+
+      <!-- HCL Software -->
+      <div class="tl-item">
+        <div class="tl-date">Jun 2024<br>Present</div>
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-company">HCL Software</div>
+          <div class="tl-role">Senior Data Engineer</div>
+          <div class="tl-loc">Chennai, India</div>
+          <div class="tl-proj">HCL Unica &mdash; Marketing Analytics ELT Pipeline</div>
+          <ul class="blist">
+            <li>Architected scalable ELT pipelines using Actian DataConnect 12.2 to extract Campaign History and Response History data, applying dimensional modelling patterns for downstream analytics consumption.</li>
+            <li>Designed date-partitioned directory structures in AWS S3 (year / month / date) for efficient incremental querying &mdash; eliminated full-dataset reloads and reduced pipeline execution time.</li>
+            <li>Implemented batch processing with on-demand execution for targeted date ranges, enabling selective reprocessing without touching unaffected partitions.</li>
+            <li>Scaled from a 2-member team to full pipeline ownership &mdash; independently managing design, CI/CD deployment, troubleshooting, and stakeholder delivery.</li>
+            <li>Enforced data governance throughout transformation: null elimination, schema compliance validation, and audit-ready output.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- HCL Technologies -->
+      <div class="tl-item">
+        <div class="tl-date">Jul 2021<br>May 2024</div>
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-company">HCL Technologies</div>
+          <div class="tl-role">Senior Data Engineer</div>
+          <div class="tl-loc">Chennai, India</div>
+
+          <div class="tl-proj">MedStar &mdash; Healthcare Data Quality &amp; Governance Pipeline</div>
+          <ul class="blist">
+            <li>Built a data profiling and quality pipeline processing patient records (CSV, Excel) &mdash; enforcing null handling, duplicate detection, PII identification, and schema compliance checks.</li>
+            <li>Delivered clean, standardised patient records to AWS S3 using Actian DataConnect, ensuring regulatory compliance before downstream consumption.</li>
+          </ul>
+
+          <div class="tl-proj">HData &mdash; Healthcare EDI ELT Pipeline</div>
+          <ul class="blist">
+            <li>Built end-to-end ELT for EDI 837P professional medical claims &mdash; structural validation, relational transformation, and loading into an Actian Avalanche dimensional model for analytics on claims volume, payer mix, and adjudication status.</li>
+            <li>Delivered data migration from legacy flat-file EDI processing to a structured, queryable data warehouse, enabling reporting that previously required manual file inspection.</li>
+            <li>Validated claim files against HIPAA and ANSI X12 EDI 837P standards before transformation, reducing downstream data quality incidents.</li>
+          </ul>
+
+          <div class="tl-proj">P&amp;G &mdash; Retail Sales Analytics ELT Pipeline</div>
+          <ul class="blist">
+            <li>Built retail ELT pipeline in a 5-member Agile team &mdash; ingesting invoice CSV files from Amazon, Flipkart, FirstCry, Dunzo, and DMart, enriched via P&amp;G's master product table.</li>
+            <li>Designed Power BI dashboards surfacing product-level sales performance across 5 retail channels, directly supporting commercial decision-making.</li>
+            <li>Applied Agile ceremonies (sprint planning, daily stand-ups, retrospectives) and CI/CD with Docker and GitHub Actions for reliable, iterative delivery.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-line"></div></div>
+
+  <!-- ░░ PROJECTS ░░ -->
+  <div class="section-wrap" id="projects">
+    <p class="s-eyebrow">// github portfolio</p>
+    <h2 class="s-title">Projects Built</h2>
+    <p class="s-desc">End-to-end pipelines built to sharpen and prove hands-on skills &mdash; full source available on GitHub.</p>
+
+    <div class="projects-grid">
+
+      <!-- Ads Analytics Pipeline -->
+      <div class="proj-card pt">
+        <span class="proj-domain pd-m">Marketing Analytics</span>
+        <div class="proj-title">Ads Analytics Pipeline</div>
+        <div class="proj-sub">Kafka / Azure Event Hubs &rarr; Databricks / PySpark &rarr; Delta Lake &rarr; Power BI</div>
+        <p class="proj-desc">Full end-to-end pipeline ingesting Google Ads and Meta Ads benchmark data through Kafka / Azure Event Hubs, processing with PySpark on Databricks through a Bronze&ndash;Silver&ndash;Gold Medallion architecture and persisting to Delta Lake on ADLS Gen2.</p>
+        <ul class="proj-hl">
+          <li>PySpark window functions: 7-day rolling averages (rangeBetween), running total spend (rowsBetween unboundedPreceding), ROAS ranking per channel-week (rank().over())</li>
+          <li>Star schema Gold layer &mdash; fact_ad_impressions joined to dim_campaign, dim_date, and dim_channel via monotonically_increasing_id() surrogate keys</li>
+          <li>Power BI dashboard with DAX measures for CTR, CPC, ROAS, MoM%, and 7-day rolling averages</li>
+          <li>Azure Event Hubs SASL/SSL Kafka config; Delta OPTIMIZE / ZORDER / VACUUM maintenance</li>
+        </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">Python</span><span class="tech-tag">PySpark</span><span class="tech-tag">Databricks</span><span class="tech-tag">Delta Lake</span><span class="tech-tag">Apache Kafka</span><span class="tech-tag">Azure Event Hubs</span><span class="tech-tag">ADLS Gen2</span><span class="tech-tag">Power BI</span><span class="tech-tag">DAX</span><span class="tech-tag">Docker</span>
+        </div>
+      </div>
+
+      <!-- EDI2Insights -->
+      <div class="proj-card paz">
+        <span class="proj-domain pd-h">Healthcare</span>
+        <div class="proj-title">EDI2Insights</div>
+        <div class="proj-sub">EDI Streaming &rarr; FastAPI &rarr; Azure Blob Storage &rarr; DuckDB</div>
+        <p class="proj-desc">End-to-end healthcare EDI pipeline processing 837P and 270/271 files via Kafka streaming ingestion. FastAPI exposes claims and eligibility data through REST APIs, with structured output mirroring an Azure SQL-compatible star schema.</p>
+        <ul class="proj-hl">
+          <li>Schema validation, EDI transformation, and dual storage to Azure Blob Storage and DuckDB</li>
+          <li>HIPAA-compliant PHI handling and audit logging throughout</li>
+          <li>Full CI/CD pipeline with pytest test suite and GitHub Actions deployment</li>
+          <li>Docker Compose orchestration for consistent local development parity</li>
+        </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">Python</span><span class="tech-tag">FastAPI</span><span class="tech-tag">Apache Kafka</span><span class="tech-tag">Azure Blob Storage</span><span class="tech-tag">Azure SQL</span><span class="tech-tag">DuckDB</span><span class="tech-tag">Docker</span><span class="tech-tag">pytest</span><span class="tech-tag">GitHub Actions</span>
+        </div>
+      </div>
+
+      <!-- Walmart Retail -->
+      <div class="proj-card pam">
+        <span class="proj-domain pd-r">Retail Analytics</span>
+        <div class="proj-title">Walmart Retail Analytics</div>
+        <div class="proj-sub">Azure Data Factory &rarr; ADLS Gen2 &rarr; Azure Synapse Analytics &rarr; Power BI</div>
+        <p class="proj-desc">Azure-native retail analytics pipeline ingesting and transforming retail sales data using parameterised ADF pipelines with ADLS Gen2 staging and Azure Synapse Analytics warehousing &mdash; fully deployed via CI/CD with environment-specific configuration.</p>
+        <ul class="proj-hl">
+          <li>Parameterised ADF pipelines with environment-based parameter files for dev / staging / prod promotion</li>
+          <li>Azure Key Vault for centralised secrets management across all environments</li>
+          <li>CI/CD via Azure DevOps pipelines for automated ADF deployment and environment promotion</li>
+        </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">Azure Data Factory</span><span class="tech-tag">ADLS Gen2</span><span class="tech-tag">Azure Synapse Analytics</span><span class="tech-tag">Azure Key Vault</span><span class="tech-tag">Azure DevOps</span><span class="tech-tag">Power BI</span>
+        </div>
+      </div>
+
+      <!-- Patient Lab History -->
+      <div class="proj-card pc">
+        <span class="proj-domain pd-h">Healthcare</span>
+        <div class="proj-title">Patient Lab History Pipeline</div>
+        <div class="proj-sub">Python &rarr; Azure Data Factory &rarr; Azure SQL</div>
+        <p class="proj-desc">Healthcare data pipeline processing and validating patient lab history records with rigorous data governance rules &mdash; null handling, PII masking, and schema validation &mdash; before loading into Azure SQL for downstream clinical analysis.</p>
+        <ul class="proj-hl">
+          <li>PII masking and null handling enforce HIPAA-aligned data governance before any load</li>
+          <li>Schema validation gate before Azure SQL load prevents corrupt data propagation</li>
+          <li>Azure Blob Storage staging with credentials managed entirely through Key Vault</li>
+        </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">Python</span><span class="tech-tag">Azure Data Factory</span><span class="tech-tag">Azure SQL</span><span class="tech-tag">Azure Blob Storage</span><span class="tech-tag">Azure Key Vault</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-line"></div></div>
+
+  <!-- ░░ CERTIFICATIONS ░░ -->
+  <div class="section-wrap" id="certifications">
+    <p class="s-eyebrow">// certifications</p>
+    <h2 class="s-title">Microsoft Certified</h2>
+    <p class="s-desc">Three Microsoft Azure certifications validating cloud data engineering, BI analytics, and foundational Azure expertise.</p>
+
+    <div class="certs-grid">
+
+      <div class="cert-card">
+        <div class="cert-icon ci-de">&#128311;</div>
+        <div>
+          <div class="cert-by">Microsoft</div>
+          <div class="cert-name">Azure Data Engineer Associate</div>
+          <div class="cert-code">DP-203</div>
+        </div>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-icon ci-pbi">&#128202;</div>
+        <div>
+          <div class="cert-by">Microsoft</div>
+          <div class="cert-name">Power BI Data Analyst Associate</div>
+          <div class="cert-code">PL-300</div>
+        </div>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-icon ci-fund">&#9729;&#65039;</div>
+        <div>
+          <div class="cert-by">Microsoft</div>
+          <div class="cert-name">Azure Data Fundamentals</div>
+          <div class="cert-code">DP-900</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="edu-bar">
+      <div class="edu-icon">&#127979;</div>
+      <div>
+        <div class="edu-name">Madras Institute of Technology, Anna University</div>
+        <div class="edu-detail">B.E. Electronics and Communication Engineering &nbsp;&bull;&nbsp; Chennai, India</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ░░ CONTACT ░░ -->
+  <div class="contact-section" id="contact">
+    <div class="contact-inner">
+      <div>
+        <h2 class="contact-heading">Let's Build Something.</h2>
+        <p class="contact-sub">Open to Senior Data Engineer roles &mdash; especially healthcare data, Azure-native architectures, and Medallion / Lakehouse systems.</p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:nusrathbanu2707@gmail.com" class="clink">
+          <div class="clink-icon">&#9993;</div>
+          nusrathbanu2707@gmail.com
+        </a>
+        <a href="tel:+918220668787" class="clink">
+          <div class="clink-icon">&#128222;</div>
+          +91 82206 68787
+        </a>
+        <a href="https://github.com/nus2707" target="_blank" rel="noopener" class="clink">
+          <div class="clink-icon">&#8962;</div>
+          github.com/nus2707
+        </a>
+        <a href="https://www.linkedin.com/in/nusrath-banu-854bbb284" target="_blank" rel="noopener" class="clink">
+          <div class="clink-icon" style="font-size:0.75rem;font-weight:700;font-family:var(--sans)">in</div>
+          LinkedIn Profile
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Nusrath Banu &nbsp;&bull;&nbsp; Senior Data Engineer &nbsp;&bull;&nbsp; Chennai, India &nbsp;&bull;&nbsp; DP-203 &bull; PL-300 &bull; DP-900</p>
+  </footer>
+
+</body>
+</html>
